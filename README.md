@@ -12,6 +12,7 @@ The published examples use no model, API key, or paid service.
 |---|---|---|---|
 | 1 | Why agents need graphs: state, nodes, edges, loops | [Watch Chapter 1](https://youtu.be/GWBM2Ueqp6o) | [Open the examples](chapters/01-why-graphs) |
 | 2 | State, channels, reducers, `add_messages` | [Watch Chapter 2](https://youtu.be/IfGZrTuZDNA) | [Open the examples](chapters/02-state-and-reducers) |
+| 3 | Nodes, edges, conditional routing, `Command`, and `Send` | [Watch Chapter 3](https://youtu.be/gSKfgMQSTM4) | [Open the examples](chapters/03-nodes-and-edges) |
 
 New chapter code will be added when its video is published, so the repository
 and the playlist stay in sync.
