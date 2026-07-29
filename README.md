@@ -4,7 +4,7 @@ Runnable companion code for the **DEEPTECH AI LABS** LangGraph course.
 Each chapter starts with a visual mental model, then proves it with small
 Python programs you can run locally.
 
-The published examples use no model, API key, or paid service.
+The published examples use no live provider model, API key, or paid service.
 
 ## Published chapters
 
@@ -14,6 +14,7 @@ The published examples use no model, API key, or paid service.
 | 2 | State, channels, reducers, `add_messages` | [Watch Chapter 2](https://youtu.be/IfGZrTuZDNA) | [Open the examples](chapters/02-state-and-reducers) |
 | 3 | Nodes, edges, conditional routing, `Command`, and `Send` | [Watch Chapter 3](https://youtu.be/gSKfgMQSTM4) | [Open the examples](chapters/03-nodes-and-edges) |
 | 4 | ReAct from scratch: tools, the agent loop, `ToolNode`, and stopping | [Watch Chapter 4](https://youtu.be/_lj8iYrBRrA) | [Open the examples](chapters/04-react-agent-from-scratch) |
+| 5 | Prebuilt agents: `create_agent`, `ToolNode`, `tools_condition`, and middleware | [Watch Chapter 5](https://youtu.be/0xqjQZQw4Q0) | [Open the examples](chapters/05-prebuilt-agents) |
 
 New chapter code is added when its video is scheduled or published, so the
 repository and the playlist stay in sync.
@@ -85,7 +86,9 @@ as a pass.
 
 - Python 3.14.3
 - `langgraph==1.2.9`
+- `langgraph-prebuilt==1.1.0`
 - `langchain-core==1.5.1`
+- `langchain==1.3.14`
 
 If an example behaves differently on a newer release, open an issue and include
 your Python and LangGraph versions.
