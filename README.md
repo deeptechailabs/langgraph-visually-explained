@@ -13,9 +13,10 @@ The published examples use no model, API key, or paid service.
 | 1 | Why agents need graphs: state, nodes, edges, loops | [Watch Chapter 1](https://youtu.be/GWBM2Ueqp6o) | [Open the examples](chapters/01-why-graphs) |
 | 2 | State, channels, reducers, `add_messages` | [Watch Chapter 2](https://youtu.be/IfGZrTuZDNA) | [Open the examples](chapters/02-state-and-reducers) |
 | 3 | Nodes, edges, conditional routing, `Command`, and `Send` | [Watch Chapter 3](https://youtu.be/gSKfgMQSTM4) | [Open the examples](chapters/03-nodes-and-edges) |
+| 4 | ReAct from scratch: tools, the agent loop, `ToolNode`, and stopping | [Watch Chapter 4](https://youtu.be/_lj8iYrBRrA) | [Open the examples](chapters/04-react-agent-from-scratch) |
 
-New chapter code will be added when its video is published, so the repository
-and the playlist stay in sync.
+New chapter code is added when its video is scheduled or published, so the
+repository and the playlist stay in sync.
 
 ## Quick start
 
@@ -91,6 +92,6 @@ your Python and LangGraph versions.
 
 ## Repository policy
 
-This repository contains only code for lessons that have already been
+This repository contains only code for lessons that have been scheduled or
 published. Video-production files, voice tracks, renders, private working
-notes, and unreleased chapters are intentionally excluded.
+notes, and unscheduled chapters are intentionally excluded.
