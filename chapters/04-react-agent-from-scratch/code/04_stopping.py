@@ -24,10 +24,10 @@ raises can only say nothing at all.
 About that default: nearly every tutorial says 25. It was 25 in
 LangGraph 0.x. This file does not take anyone's word for it -- it
 runs an empty graph into the wall and prints the number the
-library actually used, which on 1.2.9 is 10007. At one model call
-per superstep that is not a safety net you will ever feel; it is
-a stop for infinite loops, and the budget in step 3 is what
-actually protects you.
+library actually used. In the tested LangGraph 1.2.9 environment,
+with LANGGRAPH_DEFAULT_RECURSION_LIMIT unset, that value is 10007.
+The value is version- and environment-specific. It is a backstop
+for runaway graphs; the budget in step 3 is the application policy.
 
 Expected output:
 

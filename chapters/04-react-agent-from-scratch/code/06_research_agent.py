@@ -8,31 +8,29 @@ graph got SMALLER rather than bigger:
     chapter 3      plan -> Send fan-out -> gather -> Command loop
     chapter 4      agent -> tools -> agent
 
-The fan-out did not go away. It moved. In chapter 3 you computed
-the width with a list of Send objects; here the model emits two
-tool_calls in one AIMessage and the tool node runs both -- which
-is why scene 3 insisted on looping over the whole list. The width
-is still data. It is just the model's data now.
+A model message can contain a runtime-sized list of tool_calls.
+This teaching tool node processes every call sequentially. It
+demonstrates variable-width requests, not parallel execution.
+Production ToolNode adds concurrency and other capabilities.
 
 Three things worth watching in the trace:
 
-  * Turn 1 asks for TWO searches at once. One superstep, two tool
-    results, and neither one waited for the other.
-  * Turn 2 asks for a third search that could not have been
-    written in advance: "checkpointers" appears nowhere in the
-    question. The model read it in a turn-1 result and followed
-    it. That is the loop earning its keep.
+  * Turn 1 contains TWO search requests. One tools-node visit
+    returns two results, executed sequentially by this runner.
+  * The scripted turn-2 response follows "checkpointers" from a
+    turn-1 result. ScriptedModel replays this trace; it does not
+    infer the follow-up from the messages.
   * Turn 3 has no tool_calls, so should_continue routes to END.
     Nothing counted to three.
 
-The budget from scene 4 is wired in and never fires. That is what
-a budget should normally look like.
+A MAX_TURNS guard is present and does not fire in this scripted
+run. The third response has no tool_calls, so the normal route
+reaches END.
 
-Swapping in a real model is two lines, and no part of the graph
-below changes:
-
-    from langchain_anthropic import ChatAnthropic
-    model = ChatAnthropic(model="claude-sonnet-5").bind_tools(TOOLS)
+Using a live model additionally requires a provider integration,
+credentials and a current tool-capable model identifier. Replace
+ScriptedModel with that chat model and bind TOOLS; the graph
+wiring can remain the same.
 
 Expected output:
 
@@ -89,9 +87,8 @@ class State(TypedDict):
     turns: int
 
 
-# The model. Turn 2 asks about checkpointers because turn 1 came
-# back mentioning them -- swap in a real provider and this is the
-# behaviour you are buying.
+# A deterministic trace representing a follow-up on a term from
+# turn 1. ScriptedModel replays it; it does not reason over input.
 model = ScriptedModel(
     script=[
         AIMessage(

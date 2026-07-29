@@ -2,9 +2,9 @@
 
 Two facts that surprise people:
 
-  1. `@tool` does not give the model your function. It gives
-     the model your function's NAME, DOCSTRING and ARGUMENT
-     TYPES. That is the whole contract.
+  1. `@tool` does not give the model your function
+     implementation. It exposes a model-facing schema derived
+     from the tool name, description and typed arguments.
   2. `bind_tools` does not call anything and does not change
      the model. It returns a NEW model that knows the
      schemas. Nothing executes.

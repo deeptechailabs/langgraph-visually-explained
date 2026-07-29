@@ -1,19 +1,17 @@
 """A deterministic stand-in for a chat model.
 
-Every other file in this chapter imports this. It is a real
-BaseChatModel -- LangGraph cannot tell the difference -- but
-instead of calling an API it replays a fixed script.
+Every other file in this chapter imports this. It implements
+BaseChatModel, but instead of calling an API it replays a fixed
+script and ignores the semantic content of incoming messages.
 
 Why: this chapter is about the LOOP around the model, not
 about the model. A scripted one means the terminal output in
 the video is exactly what you get when you run the file, and
-it costs nothing to run. Swap it for a provider and not one
-line of the graph changes:
+it costs nothing to run.
 
-    from langchain_anthropic import ChatAnthropic
-    model = ChatAnthropic(model="claude-sonnet-5")
-
-That is the only edit. The wiring is the lesson.
+To use a provider, install its integration, configure credentials,
+choose a current tool-capable model and bind the lesson's tools.
+The graph wiring is the lesson.
 """
 
 from typing import Any, Iterator, Optional, Sequence
@@ -29,9 +27,8 @@ class ScriptedModel(BaseChatModel):
 
     script: list[AIMessage]
     calls: int = 0
-    # Set by bind_tools. The script does not consult it; it
-    # exists so you can see that binding is just attaching a
-    # list of schemas to the model.
+    # Set by bind_tools. The script does not consult it; this
+    # teaching stand-in records tool names for display only.
     bound: list[str] = []
 
     @property
@@ -58,7 +55,7 @@ class ScriptedModel(BaseChatModel):
         return ChatResult(generations=[ChatGeneration(message=out)])
 
     def bind_tools(self, tools: Sequence[Any], **kwargs: Any):
-        """Attach tool schemas. This does NOT call anything."""
+        """Record tool names for the lesson. This calls nothing."""
         names = [getattr(t, "name", str(t)) for t in tools]
         return self.__class__(script=self.script, bound=names)
 

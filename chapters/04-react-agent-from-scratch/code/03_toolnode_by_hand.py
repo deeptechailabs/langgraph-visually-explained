@@ -1,8 +1,8 @@
-"""Scene 3 -- ToolNode, written out.
+"""Scene 3 -- a minimal tool-execution node, written out.
 
-`ToolNode` is not magic and it is not long. It is a lookup
-table and a loop, and there are exactly four things it has to
-get right:
+The core synchronous tool-execution pattern is a lookup table
+and a loop. This teaching version focuses on four things it
+has to get right:
 
   1. Read tool_calls off the LAST message, not the first.
   2. Run EVERY call in the list. One AIMessage can ask for
@@ -51,7 +51,7 @@ REGISTRY = {t.name: t for t in (search, divide)}
 
 
 def tool_node(state: dict) -> dict:
-    """Everything langgraph.prebuilt.ToolNode does, in 14 lines."""
+    """Minimal synchronous teaching version; production ToolNode does more."""
     last = state["messages"][-1]
     out = []
     for call in last.tool_calls:

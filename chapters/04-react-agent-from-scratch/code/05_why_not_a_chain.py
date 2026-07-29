@@ -1,4 +1,4 @@
-"""Scene 5 -- the loop a chain cannot express.
+"""Scene 5 -- the loop a fixed one-hop pipeline does not express.
 
 Chapter 1 opened with the claim that chains are one-way. Four
 chapters later we can finally make it concrete, because the
@@ -8,31 +8,26 @@ The question is deliberately two-hop:
 
     "how long is the persistence chapter?"
 
-Neither half can be answered first. You cannot look up the length
-until you know which chapter it is, and you do not know which
-chapter it is until you have searched. The number of lookups is
-not a property of your code -- it is a property of the ANSWER to
-the first lookup.
+The chapter lookup has to happen before the length lookup. The
+number of required lookups depends on the result of the first
+lookup rather than a fixed hop-count constant.
 
-A chain is a fixed pipeline. Its author writes the steps, so its
-author has to know the count in advance. Here it is written with
-one search step, which is the honest way to write it: you cannot
-write "however many it takes" as a straight line. It returns
-chapter six and stops, one hop short.
+A fixed straight-line pipeline has a predetermined number of
+steps. Here it contains one search step, so it returns chapter
+six and stops one hop short.
 
-The graph is the same two nodes as scene 2, and nothing in it
-mentions two. It searched twice because the first result made the
-model ask again -- and if the question had needed four hops, the
-same code would have run four.
+The graph is the same two nodes as scene 2, and no fixed hop-count
+constant controls it. Its scripted trace searches twice; a real
+model could request a different number of hops at runtime.
 
-The edge back from tools to agent is the only difference. That
-edge is what a chain does not have.
+The edge back from tools to agent is the structural capability
+the fixed one-hop pipeline lacks.
 
 Expected output:
 
     Q: how long is the persistence chapter?
 
-    chain   (search -> answer, fixed at 1 hop)
+    fixed pipeline   (one search, then stop)
       search('persistence')
       -> chapter 6 covers persistence
       1 tool call, one hop short
@@ -41,7 +36,7 @@ Expected output:
       search('persistence')
       search('chapter 6 length')
       -> chapter 6, and it runs 42 minutes
-      2 tool calls, nothing in the code said 2
+      2 tool calls, no fixed hop count controlled the loop
 """
 
 from typing import Annotated, TypedDict
@@ -90,8 +85,8 @@ def count_calls(messages: list) -> int:
 
 
 # --------------------------------------------------------------- the chain
-# One search, then answer. A straight line, so the number of hops
-# is whatever the author typed -- here, one.
+# One search, then return its result. A straight line, so the
+# number of hops is whatever the author typed -- here, one.
 
 
 def run_chain() -> None:
@@ -107,7 +102,7 @@ def run_chain() -> None:
                 tool_call_id=call["id"],
             )
         )
-    # step 3: answer. There is no step 4, and no way to ask for one.
+    # step 3: return the single lookup result; no model answer follows.
     print(f"  -> {messages[-1].content}")
     print(f"  {count_calls(messages)} tool call, one hop short")
 
@@ -146,11 +141,11 @@ def run_agent() -> None:
     final = b.compile().invoke({"messages": [HumanMessage(Q)]})
     print(f"  -> {final['messages'][-1].content}")
     print(f"  {count_calls(final['messages'])} tool calls, "
-          f"nothing in the code said 2")
+          "no fixed hop count controlled the loop")
 
 
 print(f"Q: {Q}\n")
-print("chain   (search -> answer, fixed at 1 hop)")
+print("fixed pipeline   (one search, then stop)")
 run_chain()
 print("\nagent   (loop, hops decided at run time)")
 run_agent()

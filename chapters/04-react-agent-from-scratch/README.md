@@ -81,5 +81,24 @@ failure only interrupts execution. `04_stopping.py` deliberately drives a tiny
 empty loop into a caught `GraphRecursionError` to inspect the installed
 version's default limit, so that example can take about a second.
 
+## Scope and reproducibility
+
+- `ScriptedModel` replays a predetermined trace and ignores message meaning. It
+  verifies graph orchestration, not model reasoning.
+- `03_toolnode_by_hand.py` is a minimal synchronous teaching implementation.
+  LangGraph's production `ToolNode` also supports concurrency, async execution,
+  injected state and stores, `Command` results, and configurable error handling.
+- The hand-written tools node in `06_research_agent.py` executes multiple calls
+  sequentially, even though they arrive in one `AIMessage`.
+- `05_why_not_a_chain.py` compares the graph with a fixed one-hop pipeline. It
+  is not a claim that every program described as a chain is incapable of
+  routing.
+- The value `10007` is the default observed with LangGraph 1.2.9 when
+  `LANGGRAPH_DEFAULT_RECURSION_LIMIT` is unset. Treat the recursion limit as
+  version- and environment-specific.
+- The scripted research run counts turns for a six-turn safety guard. It ends
+  after three turns because the third scripted response contains no tool calls,
+  not because the guard fires.
+
 **Key idea:** The model decides what to do. Your graph decides what happens
 next.

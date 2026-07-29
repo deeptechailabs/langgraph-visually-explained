@@ -15,7 +15,14 @@ EXPECTED_FAILURE = Path(
 
 def example_files() -> list[Path]:
     """Return published example files in chapter and filename order."""
-    return sorted((ROOT / "chapters").glob("*/code/*.py"))
+    candidates = (ROOT / "chapters").glob("*/code/*.py")
+    return sorted(
+        path
+        for path in candidates
+        if len(path.name) > 3
+        and path.name[:2].isdigit()
+        and path.name[2] == "_"
+    )
 
 
 def main() -> int:

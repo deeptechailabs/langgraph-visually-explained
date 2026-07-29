@@ -8,13 +8,13 @@ two nodes and one conditional edge:
                             no -> END
 
 The edge back from `tools` to `agent` is the whole point. A
-chain has no such edge, so a chain can never look at a tool
-result and decide to use another tool. Everything else in
-this chapter is detail hung on this shape.
+fixed straight-line pipeline has no such feedback edge, so it
+cannot inspect a tool result and dynamically repeat the tool
+step. Everything else in this chapter hangs on this shape.
 
-Note what decides the loop: not a counter, not an `if` in
-your code. The presence of `tool_calls` on the last message.
-The model decides how many times round we go.
+Note what decides the loop: not a fixed iteration count. The
+router inspects `tool_calls` on the last message. The model's
+responses determine how many times around the loop we go.
 
 Expected output:
 
